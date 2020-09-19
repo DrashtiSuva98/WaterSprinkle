@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "809391412323",
+    "firebase_url": "https://watersprinkle-a2920.firebaseio.com",
+    "project_id": "watersprinkle-a2920",
+    "storage_bucket": "watersprinkle-a2920.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809391412323:android:c8448b165489784bee5456",
+        "android_client_info": {
+          "package_name": "com.android.watersprinkle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809391412323-84q67ilem6kpj46jgp080ab8j57326p6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.watersprinkle",
+            "certificate_hash": "d4520cb0e1179a32f2ebeb51cb1c08bb663ff4dc"
+          }
+        },
+        {
+          "client_id": "809391412323-afvple5hb73c6nke3a12p8lb7elggse4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3GUvHj8aW1Ej_iMej28hoSZ1mxp3IWZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809391412323-afvple5hb73c6nke3a12p8lb7elggse4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
