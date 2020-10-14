@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +30,7 @@ public class CustReportActivity extends AppCompatActivity implements RecycleItem
     private ReportAdapterRecycle adapter;
     private List<Customer> artistList;
     private RecyclerView recyclerView;
-
+    TextView total;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class CustReportActivity extends AppCompatActivity implements RecycleItem
         cust_uid = getIntent().getStringExtra("cust_uid");
         month = getIntent().getStringExtra("month");
         year = getIntent().getStringExtra("year");
-
+        total=findViewById(R.id.rpttotal);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         if (user == null) {
@@ -46,8 +47,8 @@ public class CustReportActivity extends AppCompatActivity implements RecycleItem
         }
 
         submonth = month.substring(0,3);
-        finalDate = submonth+ "-" + year;
-     //  Log.e("Data",finalDate);
+        finalDate = year+ "-" + submonth;
+    //   Log.e("Data",finalDate);
       //  FirebaseDatabase.getInstance().getReference("Orders").child(user.getUid()).child(cust_uid);
         recyclerView = findViewById(R.id.recycler3);
         recyclerView.setHasFixedSize(true);
@@ -56,13 +57,13 @@ public class CustReportActivity extends AppCompatActivity implements RecycleItem
         adapter = new ReportAdapterRecycle(this, artistList);
         recyclerView.setAdapter(adapter);
 
-        //finalDate = Sep-2020
+        //finalDate = 2020-Sep
         Query query = FirebaseDatabase.getInstance().getReference("Orders").child(user.getUid()).child(cust_uid)
-                ;
-
+                .orderByChild("date")
+                .startAt(finalDate)
+                .endAt(finalDate+"\uf8ff");
         query.addListenerForSingleValueEvent(valueEventListener);
         adapter.setClickListener(this);
-
     }
 
     ValueEventListener valueEventListener = new ValueEventListener() {
@@ -70,9 +71,12 @@ public class CustReportActivity extends AppCompatActivity implements RecycleItem
         public void onDataChange(DataSnapshot dataSnapshot) {
             artistList.clear();
             if (dataSnapshot.exists()) {
+                float amt=0;
                 for (DataSnapshot datas : dataSnapshot.getChildren()) {
                     final Customer artist = datas.getValue(Customer.class);
 
+                    float total= datas.child("total").getValue(Float.class);
+                          amt = amt + total;
 
                  /*   String getdate=datas.child("date").getValue().toString();
                     String type=datas.child("bottleType").getValue().toString();
@@ -105,7 +109,7 @@ public class CustReportActivity extends AppCompatActivity implements RecycleItem
                     });
 
 */                 artistList.add(artist);
-                }
+                }total.setText(Float.toString(amt));
                 adapter.notifyDataSetChanged();
             }
         }

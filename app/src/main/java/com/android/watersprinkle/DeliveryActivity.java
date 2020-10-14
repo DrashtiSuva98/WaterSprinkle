@@ -30,14 +30,15 @@ public class DeliveryActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
     private TextView date;
-    private Spinner type,price;
+    private Spinner type,price,ltr;
     private EditText qty;
-    private String[] spType ={"10Ltr","15Ltr"};
-    private String[] spPrice={"20","15","30"};
-    private String selType,selPrice,cust_uid;
+    private String[] spType ={"Sealed pack water","Mineral water bottle","Alkaline water bottle","Distilled water bottle","Purified water bottle","Flavored water bottle"};
+    private String[] spPrice={"15","20","25","30","35","40","45","50"};
+    private String[] spltr={"10L","15L","20L","25L","20L"};
+    private String selType,selPrice,cust_uid,selLtr;
     private DatabaseReference mFirebaseDatabase;
     private FirebaseUser currentFirebaseUser;
-
+    String finaldate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,7 @@ public class DeliveryActivity extends AppCompatActivity {
         type=findViewById(R.id.Btype);
         price=findViewById(R.id.Bprice);
         qty=findViewById(R.id.qty);
+        ltr=findViewById(R.id.ltr);
 
           cust_uid = getIntent().getStringExtra("cust_uid");
         currentFirebaseUser= FirebaseAuth.getInstance().getCurrentUser() ;
@@ -70,6 +72,8 @@ public class DeliveryActivity extends AppCompatActivity {
         Date c = Calendar.getInstance().getTime();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         String formattedDate = df.format(c);
+        SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MMM-dd", Locale.getDefault());
+        finaldate = df1.format(c);
         date.setText(formattedDate);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spType);
@@ -95,14 +99,24 @@ public class DeliveryActivity extends AppCompatActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}});
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, spltr);
+        dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ltr.setAdapter(dataAdapter2);
+        ltr.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selLtr=adapterView.getItemAtPosition(i).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}});
+
     }
 
     public void insertDelivery(View view) {
         mFirebaseDatabase = FirebaseDatabase.getInstance().getReference();
-        String dt=date.getText().toString();
         String q =qty.getText().toString();
         int Total = Integer.parseInt(selPrice) * Integer.parseInt(q);
-        final Customer cust=new Customer(dt,selType,Integer.parseInt(selPrice),Integer.parseInt(q),Total);
+        final Customer cust=new Customer(finaldate,selType,selLtr,Integer.parseInt(selPrice),Integer.parseInt(q),Total);
         progressDialog = new ProgressDialog(DeliveryActivity.this);
         progressDialog.setMessage("Please wait while we record your delivery.."); // Setting Message
         progressDialog.setTitle("Recording.."); // Setting Title

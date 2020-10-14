@@ -13,6 +13,24 @@ public class Customer  {
     public int total;
     public String timestamp;
 
+    public String getCustMobile() {
+        return custMobile;
+    }
+
+    public void setCustMobile(String custMobile) {
+        this.custMobile = custMobile;
+    }
+
+    public String custMobile;
+    public String getLiter() {
+        return liter;
+    }
+
+    public void setLiter(String liter) {
+        this.liter = liter;
+    }
+
+    public String liter;
 
     public String getTimestamp() {
         return timestamp;
@@ -81,9 +99,10 @@ public class Customer  {
         this.total = total;
     }
 
-    public  Customer(String date, String bottleType, int bottlePrice, int quantity, int total){
+    public  Customer(String date, String bottleType,String liter ,int bottlePrice, int quantity, int total){
         this.date=date;
         this.bottleType=bottleType;
+        this.liter=liter;
         this.bottlePrice=bottlePrice;
         this.quantity=quantity;
         this.total=total;

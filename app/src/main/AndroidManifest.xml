@@ -4,13 +4,19 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileActivity"></activity>
-        <activity android:name=".FriendRequestActivity" />
-        <activity android:name=".CustReportActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".FriendRequestActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".CustReportActivity"
+            android:parentActivityName=".AllCustomerActivity" />
         <activity
             android:name=".PickMonthYear"
             android:theme="@style/NoActionBar" />
@@ -22,8 +28,7 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".DeliverySelectCustomer"
-            android:parentActivityName=".MainActivity"
-            />
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".SetUpProfile" />
         <!--
  Set color used with incoming notification messages. This is used when no color is set for the incoming
@@ -64,9 +69,9 @@
             </intent-filter>
         </service>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

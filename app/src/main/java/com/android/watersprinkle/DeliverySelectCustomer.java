@@ -60,11 +60,11 @@ public class DeliverySelectCustomer extends AppCompatActivity implements Recycle
         chk.setText("heey");
   */
 
-        getSupportActionBar().setTitle("All Users");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-     //   getSupportActionBar().setIcon(R.drawable.logo);
-        getSupportActionBar().setDisplayUseLogoEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.logo);// set drawable icon
+     //   getSupportActionBar().setTitle("All Users");
+      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+     //   getSupportActionBar().setDisplayUseLogoEnabled(true);
+      ///  getSupportActionBar().setHomeAsUpIndicator(R.drawable.logo);// set drawable icon
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -72,10 +72,6 @@ public class DeliverySelectCustomer extends AppCompatActivity implements Recycle
             startActivity(new Intent(getApplicationContext(), SignIn.class));
         }
 
-    /*    Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-        formattedDate = df.format(c);
-*/
         recyclerView = findViewById(R.id.recycler1);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -1,6 +1,7 @@
 package com.android.watersprinkle;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -36,12 +40,25 @@ public class ReportAdapterRecycle extends RecyclerView.Adapter<ReportAdapterRecy
     @Override
     public void onBindViewHolder(@NonNull ReportAdapterRecycle.ArtistViewHolder holder, int position) {
         Customer customer = artistList.get(position);
-        holder.textdate.setText(customer.date);
+        String inputPattern = "yyyy-MMM-dd";
+        String outputPattern = "dd-MMM-yyyy";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        Date date = null;
+        String str = null;
+        try {
+            date = inputFormat.parse(customer.date);
+            str = outputFormat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.textdate.setText(str);
         holder.txttype.setText(customer.bottleType);
+        holder.txtltr.setText(customer.liter);
        holder.textprice.setText(String.valueOf(customer.bottlePrice));
         holder.txtqty.setText(String.valueOf(customer.quantity));
         holder.txttotal.setText(String.valueOf(customer.total));
-    }
+       }
 
     @Override
     public int getItemCount() {
@@ -50,13 +67,14 @@ public class ReportAdapterRecycle extends RecyclerView.Adapter<ReportAdapterRecy
 
     class ArtistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView textdate,txttype,textprice,txtqty,txttotal;
+        TextView textdate,txttype,textprice,txtqty,txttotal,txtltr;
 
         public ArtistViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textdate = itemView.findViewById(R.id.rptdate);
             txttype = itemView.findViewById(R.id.rpttype);
+            txtltr=itemView.findViewById(R.id.rptltr);
             textprice = itemView.findViewById(R.id.rptprice);
             txtqty = itemView.findViewById(R.id.rptqty);
             txttotal = itemView.findViewById(R.id.rpttotal);

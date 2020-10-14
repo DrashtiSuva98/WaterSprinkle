@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -32,17 +34,11 @@ public class FriendRequestActivity extends AppCompatActivity {
     private DatabaseReference mRootRef;
     private DatabaseReference mFriendReqDatabase;
     private FirebaseUser mCurrent_user;
-    private GridLayout maingrid;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_request);
-
-        maingrid=findViewById(R.id.grid);
-        ImageView imageView = findViewById(R.id.requestgif);
-        Glide.with(this).load(R.drawable.requestgif).into(imageView);
 
         final LinearLayout lm = findViewById(R.id.btnLayout);
         final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -51,7 +47,6 @@ public class FriendRequestActivity extends AppCompatActivity {
         mCurrent_user = FirebaseAuth.getInstance().getCurrentUser();
         mRootRef = FirebaseDatabase.getInstance().getReference();
 
-
         mFriendReqDatabase.child(mCurrent_user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -59,36 +54,42 @@ public class FriendRequestActivity extends AppCompatActivity {
                 if(dataSnapshot.hasChildren()){
 
                     for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                        LinearLayout ll = new LinearLayout(getApplicationContext());
+                        LinearLayout ll = new LinearLayout(FriendRequestActivity.this);
                         ll.setOrientation(LinearLayout.HORIZONTAL);
                         ll.setPadding(10,0,0,0);
                         params.setMargins(30,30,0,0);
 
                         final String key = ds.getKey();
-                        String request_type = ds.child("request_type").getValue(String.class);
+                        String cust_name = ds.child("cust_name").getValue(String.class);
 
-                        final Button accept = new Button(getApplicationContext());
-                        final Button delete = new Button(getApplicationContext());
-                        final ImageView img = new ImageView(getApplicationContext());
+                        final Button accept = new Button(FriendRequestActivity.this);
+                        final Button delete = new Button(FriendRequestActivity.this);
+                        final ImageView img = new ImageView(FriendRequestActivity.this);
+                        final TextView txtnm = new TextView(FriendRequestActivity.this);
 
                         String uri = "@drawable/defavatar";  // where myresource (without the extension) is the file
-                        int imageResource = getResources().getIdentifier(uri, null,getApplicationContext().getPackageName());
+                        int imageResource = getResources().getIdentifier(uri, null,FriendRequestActivity.this.getPackageName());
                         Drawable res = getResources().getDrawable(imageResource);
                         img.setImageDrawable(res);
                         LinearLayout.LayoutParams imgparam = new LinearLayout.LayoutParams(200, 200);
                         img.setLayoutParams(imgparam);
                         img.setScaleType(ImageView.ScaleType.FIT_XY);
 
+                        txtnm.setText(cust_name);
+                        LinearLayout.LayoutParams txtparam = new LinearLayout.LayoutParams(350, 110);
+                        txtparam.setMargins(20,0,0,0);
+                        accept.setLayoutParams(txtparam);
+
                         accept.setText("Accept");
-                        accept.setTextColor(getApplicationContext().getResources().getColor(R.color.colorNavText));
-                        accept.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.colorPrimary));
+                        accept.setTextColor(FriendRequestActivity.this.getResources().getColor(R.color.colorNavText));
+                        accept.setBackgroundColor(FriendRequestActivity.this.getResources().getColor(R.color.colorPrimary));
                         LinearLayout.LayoutParams acceptparam = new LinearLayout.LayoutParams(350, 110);
                         acceptparam.setMargins(20,35,0,0);
                         accept.setLayoutParams(acceptparam);
 
                         delete.setText("Delete");
-                        delete.setTextColor(getApplicationContext().getResources().getColor(R.color.colorNavText));
-                        delete.setBackgroundColor(getApplicationContext().getResources().getColor(R.color.colorPrimary));
+                        delete.setTextColor(FriendRequestActivity.this.getResources().getColor(R.color.colorNavText));
+                        delete.setBackgroundColor(FriendRequestActivity.this.getResources().getColor(R.color.colorPrimary));
                         LinearLayout.LayoutParams deleteparam = new LinearLayout.LayoutParams(350, 110);
                         deleteparam.setMargins(15,35,0,0);
                         delete.setLayoutParams(deleteparam);
@@ -118,7 +119,7 @@ public class FriendRequestActivity extends AppCompatActivity {
                                             delete.setEnabled(false);
                                         } else {
                                             String error = databaseError.getMessage();
-                                            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(FriendRequestActivity.this, error, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -146,18 +147,33 @@ public class FriendRequestActivity extends AppCompatActivity {
                                             delete.setEnabled(false);
                                         } else {
                                             String error = databaseError.getMessage();
-                                            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(FriendRequestActivity.this, error, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
                             }
                         });
                         ll.addView(img);
+                        //ll.addView(txtnm);
                         ll.addView(accept);
                         ll.addView(delete);
                         ll.setLayoutParams(params);
                         lm.addView(ll);
                     }
+                }else{
+                    LinearLayout ll = new LinearLayout(FriendRequestActivity.this);
+                    ll.setOrientation(LinearLayout.VERTICAL);
+                    ll.setPadding(10,100,0,0);
+                    params.setMargins(40,100,0,0);
+
+                    final ImageView img = new ImageView(FriendRequestActivity.this);
+
+                    LinearLayout.LayoutParams imgparam = new LinearLayout.LayoutParams(1000,1200);
+                    img.setLayoutParams(imgparam);
+                    Glide.with(getApplicationContext()).load(R.drawable.nomsggif).into(img);
+                    ll.addView(img);
+                    ll.setLayoutParams(params);
+                    lm.addView(ll);
                 }
             }
 
@@ -166,7 +182,5 @@ public class FriendRequestActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 }
