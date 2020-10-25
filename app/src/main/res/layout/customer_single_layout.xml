@@ -32,20 +32,14 @@
                 android:layout_below="@+id/cust_single_name"
                 />
 
-            <CheckBox
-                android:id="@+id/chkcust"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/cust_single_name"
-                android:layout_marginTop="10dp"
-                android:checked="false"
-                android:clickable="false"
-                android:visibility="invisible"
-                android:gravity="end|right|center"
-                />
+            <ImageButton
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/custprofile"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/custprofile" />
 
         </RelativeLayout>
-
-
         </androidx.cardview.widget.CardView>
 </RelativeLayout>

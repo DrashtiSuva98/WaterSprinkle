@@ -1,7 +1,6 @@
 package com.android.watersprinkle;
 
 public class Customer  {
-
     public String custName;
     public String image;
     public  String custAddress;
@@ -12,6 +11,54 @@ public class Customer  {
     public int quantity;
     public int total;
     public String timestamp;
+    public String email;
+    public String custState;
+    public String custCity;
+    public String custMobile;
+    public String liter;
+
+    public String getCustState() {
+        return custState;
+    }
+
+    public void setCustState(String custState) {
+        this.custState = custState;
+    }
+
+    public String getCustCity() {
+        return custCity;
+    }
+
+    public void setCustCity(String custCity) {
+        this.custCity = custCity;
+    }
+
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCustName() {
+        return custName;
+    }
+
+    public void setCustName(String custName) {
+        this.custName = custName;
+    }
+
+    public String getCustAddress() {
+        return custAddress;
+    }
+
+    public void setCustAddress(String custAddress) {
+        this.custAddress = custAddress;
+    }
+
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getCustMobile() {
         return custMobile;
@@ -21,7 +68,6 @@ public class Customer  {
         this.custMobile = custMobile;
     }
 
-    public String custMobile;
     public String getLiter() {
         return liter;
     }
@@ -30,7 +76,6 @@ public class Customer  {
         this.liter = liter;
     }
 
-    public String liter;
 
     public String getTimestamp() {
         return timestamp;

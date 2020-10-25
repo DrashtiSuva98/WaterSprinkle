@@ -13,8 +13,6 @@ public class User  {
     private String selSt;
     private String selCy;
     public Map<String, Boolean> stars = new HashMap<>();
-
-
     public User(){
     }
     @Exclude

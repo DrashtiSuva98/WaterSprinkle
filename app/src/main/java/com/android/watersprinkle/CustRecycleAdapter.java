@@ -1,20 +1,19 @@
 package com.android.watersprinkle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class CustRecycleAdapter extends RecyclerView.Adapter<CustRecycleAdapter.ArtistViewHolder> {
 
@@ -36,20 +35,18 @@ public class CustRecycleAdapter extends RecyclerView.Adapter<CustRecycleAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ArtistViewHolder holder, int position) {
-        Customer customer = artistList.get(position);
+        final Customer customer = artistList.get(position);
         holder.textViewName.setText(customer.custName);
         holder.textViewAddress.setText(customer.custAddress);
-
-  /*  OrderDate od =arrayDateList.get(position);
-        String dt=od.date;
-        if(!dt.equals("")){
-            holder.chk.setVisibility(View.VISIBLE);
-            holder.chk.setChecked(true);
-        }else{
-            holder.chk.setVisibility(View.INVISIBLE);
-            holder.chk.setChecked(false);
-        }
-    */ }
+        holder.img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =new Intent(mCtx,CustProfileActivity.class);
+                i.putExtra("custKey",customer.getUid());
+                mCtx.startActivity(i);
+            }
+        });
+   }
 
     @Override
     public int getItemCount() {
@@ -59,14 +56,14 @@ public class CustRecycleAdapter extends RecyclerView.Adapter<CustRecycleAdapter.
     class ArtistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView textViewName, textViewAddress;
-        //CheckBox chk;
+        ImageButton img;
 
         public ArtistViewHolder(@NonNull View itemView) {
             super(itemView);
 
             textViewName = itemView.findViewById(R.id.cust_single_name);
             textViewAddress = itemView.findViewById(R.id.cust_single_add);
-          //  chk=itemView.findViewById(R.id.chkcust);
+            img=itemView.findViewById(R.id.custprofile);
             itemView.setOnClickListener(this);
         }
 
